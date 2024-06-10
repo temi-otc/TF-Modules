@@ -11,7 +11,9 @@ variable "vnet-name" {
 variable "subnet" {
   type = string
 }
-
+variable "pip" {
+  type = string
+}
 variable "nic" {
   type = string
 }

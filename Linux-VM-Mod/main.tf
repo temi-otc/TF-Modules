@@ -19,7 +19,18 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name = azurerm_virtual_network.virtual-network.name
   address_prefixes     = ["10.0.2.0/24"]
   depends_on = [ azurerm_resource_group.resource-group, azurerm_virtual_network.virtual-network ]
+
 }
+
+
+resource "azurerm_public_ip" "pip" {
+  name                = var.pip
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  allocation_method   = "Static"
+
+}
+
 
 resource "azurerm_network_interface" "nic" {
   name                = var.nic
@@ -30,6 +41,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = var.ipcon
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.pip.id
   }
 }
 
